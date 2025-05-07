@@ -397,9 +397,9 @@ void	ScalarConverter::convert(const std::string &str)
 	char	_char = 0;
 	bool impossible = false;
 	if (isChar(str))
-        impossible = convertChar(_int, _char, _float, _double, str, impossible);
+        	impossible = convertChar(_int, _char, _float, _double, str, impossible);
 	else if (isInt(str))
-        impossible = convertInt(_int, _char, _float, _double, str, impossible);
+        	impossible = convertInt(_int, _char, _float, _double, str, impossible);
 	else if (isFloat(str))
 		impossible = convertFloat(_int, _char, _float, _double, str);
 	else if (isDouble(str))
