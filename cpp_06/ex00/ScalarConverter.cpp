@@ -156,7 +156,7 @@ bool convertFloat(int &_int , char &_char, float &_float, double &_double, const
 {
     if (isFloat(str))
     {
-        float	result = 0.0f;
+            float	result = 0.0f;
 	    float	divisor = 1.0f;
 	    bool	isNegative = false;
 	    bool	isExponentNegative = false;
