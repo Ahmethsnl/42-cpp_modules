@@ -283,7 +283,6 @@ bool isDouble (const std::string &str)
     }
     if (hasExponent)
         return hasDigitsBefore && hasDigitsAfter;
-
     return hasDigitsBefore;
 }
 
