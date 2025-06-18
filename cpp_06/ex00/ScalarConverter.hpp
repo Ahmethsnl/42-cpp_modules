@@ -1,5 +1,5 @@
-#ifndef ScalarConverter
-# define ScalarConverter
+#ifndef ScalarConverter_HPP
+# define ScalarConverter_HPP
 
 #include <iostream>
 #include <string>
@@ -9,13 +9,13 @@
 class ScalarConverter
 {
     private:
-        ScalarConverter();
-        ScalarConverter(const ScalarConverter &src);
-        ~ScalarConverter();
+        ScalarConverter ();
+        ScalarConverter (const ScalarConverter &src);
+        ~ScalarConverter ();
         ScalarConverter &operator=(const ScalarConverter &rhs);
     
     public:
-        void convert(const std::string &literal);
-}
+        static void convert(const std::string &literal);
+};
 
 #endif

@@ -1,0 +1,90 @@
+Test 1
+Input   : 42.0
+Beklenen: float: 42.0f
+Alınan  :
+char: '*'
+int: 42
+float: 42f
+double: 42
+----------------------------
+Test 2
+Input   : 42.
+Beklenen: float: 42.0f
+Alınan  :
+char: '*'
+int: 42
+float: 42f
+double: 42
+----------------------------
+Test 4
+Input   : 0.0
+Beklenen: float: 0.0f
+Alınan  :
+char: Non displayable
+int: 0
+float: 0f
+double: 0
+----------------------------
+Test 17
+Input   : 42$'\n'
+Beklenen: int: 42
+Alınan  :
+Error: Invalid input
+----------------------------
+Test 18
+Input   :  42
+Beklenen: int: 42
+Alınan  :
+Error: Invalid input
+----------------------------
+Test 19
+Input   : 1e-320
+Beklenen: double: 1e-320
+Alınan  :
+char: Non displayable
+int: 0
+float: 0f
+double: 0
+----------------------------
+Test 20
+Input   :  3.14 
+Beklenen: float: 3.14f
+Alınan  :
+Error: Invalid input
+----------------------------
+Test 22
+Input   :    42
+Beklenen: int: 42
+Alınan  :
+Error: Invalid input
+----------------------------
+Test 25
+Input   : 12345678901234567890
+Beklenen: Error
+Alınan  :
+char: impossible
+int: impossible
+float: 0f
+double: 0
+----------------------------
+Test 28
+Input   : 0.123456789123456789
+Beklenen: double: 0.12345678912345678
+Alınan  :
+char: Non displayable
+int: 0
+float: 0.123457f
+double: 0.123457
+----------------------------
+Test 36
+Input   : $'\t'42
+Beklenen: int: 42
+Alınan  :
+Error: Invalid input
+----------------------------
+Test 37
+Input   : NANF
+Beklenen: float: nanf
+Alınan  :
+Error: Invalid input
+----------------------------
