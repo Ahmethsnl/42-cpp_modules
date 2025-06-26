@@ -1,0 +1,81 @@
+Test 1
+Input   : 1e-46
+Expected: float: 0.0f
+Got     :
+char: Non displayable
+int: 0
+float: 0f
+double: 1e-46
+----------------------------
+Test 2
+Input   : 5e-46
+Expected: float: 0.0f
+Got     :
+char: Non displayable
+int: 0
+float: 0f
+double: 5e-46
+----------------------------
+Test 6
+Input   : 3.5e+38
+Expected: float: +inf
+Got     :
+char: Non displayable
+int: 0
+float: inff
+double: 3.5e+38
+----------------------------
+Test 7
+Input   : 1e+39
+Expected: float: +inf
+Got     :
+char: Non displayable
+int: 0
+float: inff
+double: 1e+39
+----------------------------
+Test 8
+Input   : 1e-324
+Expected: double: 0.0
+Got     :
+char: Non displayable
+int: 0
+float: 0f
+double: 0
+----------------------------
+Test 9
+Input   : 2e-324
+Expected: double: 0.0
+Got     :
+char: Non displayable
+int: 0
+float: 0f
+double: 0
+----------------------------
+Test 10
+Input   : 4.9e-324
+Expected: double: 0.0
+Got     :
+char: Non displayable
+int: 0
+float: 0f
+double: 0
+----------------------------
+Test 12
+Input   : 1.8e+308
+Expected: double: +inf
+Got     :
+char: Non displayable
+int: 0
+float: inff
+double: inf
+----------------------------
+Test 13
+Input   : 1e+309
+Expected: double: +inf
+Got     :
+char: Non displayable
+int: 0
+float: inff
+double: inf
+----------------------------
