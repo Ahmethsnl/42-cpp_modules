@@ -11,12 +11,14 @@ TESTS=(
     "1e-44"
 
     # FLOAT LOWER LIMIT
-    "1.4013e-45"   # smallest positive subnormal float
-    "1.17549e-38"  # smallest positive normal float
+    "1.4013e-45f"   # smallest positive subnormal float
+    "1.17549e-38f"  # smallest positive normal float
+    "1.10e-37f"
+    "1.1e-38"
 
     # FLOAT OVERFLOW
-    "3.5e+38"
-    "1e+39"
+    "3.5e+38f"
+    "1e+39f"
 
     # DOUBLE UNDERFLOW
     "1e-324"
@@ -25,6 +27,8 @@ TESTS=(
     # DOUBLE LOWER LIMIT
     "4.9e-324"      # smallest positive subnormal double
     "2.22507e-308"  # smallest positive normal double
+    "0.1e-308"
+    "0.1e-309"
 
     # DOUBLE OVERFLOW
     "1.8e+308"
@@ -33,13 +37,15 @@ TESTS=(
 
 EXPECTED_OUTPUTS=(
     # FLOAT UNDERFLOW
-    "float: 0f"
-    "float: 0f"
-    "float: 0f"
+    "float: impossible"
+    "float: impossible"
+    "float: 9.80909e-45f"
 
     # FLOAT LOWER LIMIT
-    "float: 1.4013e-45f"
-    "float: 1.17549e-38f"
+    "float: 0.0f"
+    "float: 0.0f"
+    "float: 1.1e-37f"
+    "float: 1.1e-38f"
 
     # FLOAT OVERFLOW
     "float: inf"
@@ -50,8 +56,10 @@ EXPECTED_OUTPUTS=(
     "double: 0"
 
     # DOUBLE LOWER LIMIT
-    "double: 4.9e-324"
+    "double: 0.0"
     "double: 2.22507e-308"
+    "1e-309"
+    "0.0"
 
     # DOUBLE OVERFLOW
     "double: inf"
@@ -64,7 +72,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-# Make re
+# Build
 echo -e "${YELLOW}🔄 Building project with make re...${NC}"
 $MAKE_CMD > /dev/null 2>&1
 
@@ -86,7 +94,7 @@ for i in "${!TESTS[@]}"; do
 
     output=$($EXEC "$input" 2>&1)
 
-    if echo "$output" | grep -q "$expected"; then
+    if echo "$output" | grep -qF "$expected"; then
         echo -e "${GREEN}✔️ Test $((i+1)) [$input] → OK${NC}"
         ((pass++))
     else

@@ -1,412 +1,327 @@
 #include "ScalarConverter.hpp"
 
+#include <iostream>
+#include <string>
+#include <limits>
+#include <cctype>
+
 ScalarConverter::ScalarConverter() {}
-
-ScalarConverter::ScalarConverter(const ScalarConverter &src) {*this = src;}
-
+ScalarConverter::ScalarConverter(const ScalarConverter&) {}
 ScalarConverter::~ScalarConverter() {}
+ScalarConverter& ScalarConverter::operator=(const ScalarConverter&) { return *this; }
 
-ScalarConverter &ScalarConverter::operator=(const ScalarConverter &src)
-{
-	if (this == &src)
-		return *this;
-	return *this;
+static std::string toLower(const std::string& s) {
+    std::string res = s;
+    for (size_t i = 0; i < res.size(); ++i)
+        res[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(res[i])));
+    return res;
 }
 
-int isChar(const std::string &str)
-{
-    if (str.length() == 1 && !std::isdigit(str[0]))
-        return 1;
-    return 0;
+static bool isSpecialFloat(const std::string& s) {
+    std::string l = toLower(s);
+    return l == "nanf" || l == "+inff" || l == "-inff" || l == "inff";
+}
+static bool isSpecialDouble(const std::string& s) {
+    std::string l = toLower(s);
+    return l == "nan" || l == "+inf" || l == "-inf" || l == "inf";
 }
 
-bool convertChar(int &_int , char &_char, float &_float, double &_double, const std::string &str, bool &impossible)
-{
-    _char = str[0];
-    if (isChar(str))
-    {
-        if (!std::isprint(_char))
-            impossible = true;
-        if (impossible)
-        {
-            _char = 0;
-            return impossible;
-        }
-        _char = str[0];
-        _int = static_cast<int>(_char);
-        _float = static_cast<float>(_char);
-        _double = static_cast<double>(_char);
-    }
-    return false;
+static bool isChar(const std::string& s) {
+    return s.size() == 1 && !std::isdigit(static_cast<unsigned char>(s[0]));
 }
 
-int isInt(const std::string &str)
-{
-    if (str.empty())
-        return 0;
-    else if (str.length() == 1 && !std::isdigit(str[0]))
-        return 0;
-    for (size_t i = 0; i < str.length(); i++)
-    {
-        if (!std::isdigit(str[i]))
-            return 0;
-    }
-    return 1;
-}
-
-bool convertInt(int &_int , char &_char, float &_float, double &_double, const std::string &str, bool &impossible)
-{
-    long long res = 0;
-    bool isNegative = false;
-    size_t i = 0;
-    if (str[0] == '-')
-    {
-        isNegative = true;
-        i = 1;
-    }
-    else if (str[0] == '+')
-        i = 1;
-    for (; i < str.length(); ++i)
-    {
-        if (std::isdigit(str[i]))
-            res = res * 10 + (str[i] - '0');
-        else
-            break;
-    }
-    if (isNegative)
-        res = -res;
-    if (res > std::numeric_limits<int>::max() || res < std::numeric_limits<int>::min())
-    {
-        impossible = true;
-        return impossible;
-    }
-    _int = res;
-    _char = static_cast<char>(_int);
-    _float = static_cast<float>(_int);
-    _double = static_cast<double>(_int);
-    return false;
-}
-
-int isFloat(const std::string &str)
-{
-	if (str.empty())
-		return false;
-	if (str == "-inff" || str == "+inff" || str == "inff" || str == "nanf")
-		return 1;
-
-	bool hasDecimal = false;
-	bool hasExponent = false;
-	bool hasDigitsBefore = false;
-	bool hasDigitsAfter = false;
-	bool inExponent = false;
-
-	size_t i = 0;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str.length() == 1)
-			return false;
-		i++;
-	}
-
-	for (size_t j = i; j < str.length(); ++j)
-	{
-		char c = str[j];
-
-		if (std::isdigit(c))
-		{
-			if (inExponent)
-				hasDigitsAfter = true;
-			else
-				hasDigitsBefore = true;
-		}
-		else if (c == '.')
-		{
-			if (hasDecimal || hasExponent)
-				return false;
-			hasDecimal = true;
-		}
-		else if (c == 'e' || c == 'E')
-		{
-			if (hasExponent || !hasDigitsBefore)
-				return false;
-			hasExponent = true;
-			inExponent = true;
-		}
-		else if (c == '-' || c == '+')
-		{
-			if (j == i || (str[j - 1] != 'e' && str[j - 1] != 'E'))
-				return false;
-		}
-		else if (c == 'f' || c == 'F')
-        {
-	        if (j != str.length() - 1 || !(hasDigitsBefore || hasDigitsAfter))
-		    return false;
-        }
-		else
-			return false;
-	}
-
-	if (hasExponent)
-		return hasDigitsBefore && hasDigitsAfter;
-
-	return hasDigitsBefore;
-}
-
-bool convertFloat(int &_int , char &_char, float &_float, double &_double, const std::string &str)
-{
-    if (isFloat(str))
-    {
-            float	result = 0.0f;
-	    float	divisor = 1.0f;
-	    bool	isNegative = false;
-	    bool	isExponentNegative = false;
-	    bool	inFraction = false;
-	    bool	inExponent = false;
-	    float	exponent = 0.0f;
-	    size_t	i = 0;
-
-        if (str == "-inff")
-	    {
-		    _float = -std::numeric_limits<float>::infinity();
-		    _double = -std::numeric_limits<float>::infinity();
-		    return (true);
-	    }
-	    else if (str == "+inff" || str == "inff")
-	    {
-	    	_float = std::numeric_limits<float>::infinity();
-	    	_double = std::numeric_limits<float>::infinity();
-	    	return (true);
-	    }
-	    else if (str == "nanf")
-	    {
-	    	_float = std::numeric_limits<float>::quiet_NaN();
-	    	_double = std::numeric_limits<float>::quiet_NaN();
-	    	return (true);
-	    }
-
-        if (str[0] == '-')
-	    {
-		    isNegative = true;
-		    i = 1;
-	    }
-	    else if (str[0] == '+')
-		    i = 1;
-        for (; i < str.length(); ++i)
-        {
-            if (std::isdigit(str[i]))
-            {
-                if (inExponent)
-                    exponent = exponent * 10.0f + (str[i] - '0');
-                else if (inFraction)
-                {
-                    divisor *= 10.0f;
-                    result += (str[i] - '0') / divisor;
-                }
-                else
-                    result = result * 10.0f + (str[i] - '0');
-            }
-            else if (str[i] == '.')
-                inFraction = true;
-            else if (str[i] == 'e' || str[i] == 'E')
-                inExponent = true;
-            else if (str[i] == '-')
-                isExponentNegative = true;
-            else if (str[i] == '+')
-                isExponentNegative = false;
-        }
-        if (isExponentNegative)
-            exponent = -exponent;
-        result *= std::pow(10.0f, exponent);
-        if (isNegative)
-            result = -result;
-        _char = static_cast<char>(result);
-	    _int = static_cast<int>(result);
-	    _float = result;
-	    _double = static_cast<double>(result);
-        return (false);
-    }
-    return false;
-}
-
-bool isDouble (const std::string &str)
-{
-    if (str.empty())
-        return false;
-    if (str == "-inf" || str == "+inf" || str == "inf" || str == "nan")
-        return true;
-
-    bool hasDecimal = false;
-    bool hasExponent = false;
-    bool hasDigitsBefore = false;
-    bool hasDigitsAfter = false;
-    bool inExponent = false;
+static bool parseLongLong(const std::string& s, long long& out) {
+    if (s.empty()) return false;
 
     size_t i = 0;
-    if (str[i] == '-' || str[i] == '+')
-    {
-        if (str.length() == 1)
-            return false;
+    bool neg = false;
+    if (s[0] == '-' || s[0] == '+') {
+        neg = (s[0] == '-');
         i++;
+        if (i == s.size()) return false;
     }
-
-    for (size_t j = i; j < str.length(); ++j)
-    {
-        char c = str[j];
-
-        if (std::isdigit(c))
-        {
-            if (inExponent)
-                hasDigitsAfter = true;
-            else
-                hasDigitsBefore = true;
-        }
-        else if (c == '.')
-        {
-            if (hasDecimal || hasExponent)
-                return false;
-            hasDecimal = true;
-        }
-        else if (c == 'e' || c == 'E')
-        {
-            if (hasExponent || !hasDigitsBefore)
-                return false;
-            hasExponent = true;
-            inExponent = true;
-        }
-        else if (c == '-' || c == '+')
-        {
-            if (j == i || (str[j - 1] != 'e' && str[j - 1] != 'E'))
+    long long val = 0;
+    for (; i < s.size(); i++) {
+        if (!std::isdigit(static_cast<unsigned char>(s[i])))
             return false;
-        }
-        else
+        int digit = s[i] - '0';
+        if (val > (std::numeric_limits<long long>::max() - digit) / 10)
             return false;
+        val = val * 10 + digit;
     }
-    if (hasExponent)
-        return hasDigitsBefore && hasDigitsAfter;
-    return hasDigitsBefore;
+    out = neg ? -val : val;
+    return true;
 }
 
-bool convertDouble(int &_int , char &_char, float &_float, double &_double, const std::string &str)
-{
-    if (isDouble(str))
-    {
-        double	result = 0.0;
-        double	divisor = 1.0;
-        bool	isNegative = false;
-        bool	isExponentNegative = false;
-        bool	inFraction = false;
-        bool	inExponent = false;
-        double	exponent = 0.0;
-        size_t	i = 0;
+static bool parseInt(const std::string& s, int& out) {
+    long long val;
+    if (!parseLongLong(s, val))
+        return false;
+    if (val < std::numeric_limits<int>::min() || val > std::numeric_limits<int>::max())
+        return false;
+    out = static_cast<int>(val);
+    return true;
+}
 
-        if (str == "-inf")
-        {
-            _float = -std::numeric_limits<double>::infinity();
-            _double = -std::numeric_limits<double>::infinity();
-            return (true);
-        }
-        else if (str == "+inf" || str == "inf")
-        {
-        	_float = std::numeric_limits<double>::infinity();
-        	_double = std::numeric_limits<double>::infinity();
-        	return (true);
-        }
-        else if (str == "nan")
-        {
-        	_float = std::numeric_limits<double>::quiet_NaN();
-        	_double = std::numeric_limits<double>::quiet_NaN();
-        	return (true);
-        }
+static bool parseDouble(const std::string& s, double& out) {
+    if (s.empty()) return false;
 
-        if (str[0] == '-')
-        {
-            isNegative = true;
-            i = 1;
-        }
-        else if (str[0] == '+')
-            i = 1;
-        for (; i < str.length(); ++i)
-        {
-            if (std::isdigit(str[i]))
-            {
-                if (inExponent)
-                    exponent = exponent * 10.0 + (str[i] - '0');
-                else if (inFraction)
-                {
-                    divisor *= 10.0;
-                    result += (str[i] - '0') / divisor;
-                }
-                else
-                    result = result * 10.0 + (str[i] - '0');
+    size_t i = 0;
+    bool neg = false;
+    if (s[0] == '+' || s[0] == '-') {
+        neg = (s[0] == '-');
+        i++;
+        if (i == s.size()) return false;
+    }
+    double result = 0.0;
+    bool dotSeen = false;
+    double fracFactor = 0.1;
+    bool expNeg = false;
+    int exponent = 0;
+    bool expPart = false;
+    bool digitsBeforeExp = false;
+
+    std::string basePart = s.substr(i);
+    size_t pos = 0;
+
+    while (pos < basePart.size()) {
+        char c = basePart[pos];
+        if (c == '.') {
+            if (dotSeen || expPart) return false;
+            dotSeen = true;
+            pos++;
+        } else if (c == 'e' || c == 'E') {
+            if (expPart) return false;
+            expPart = true;
+            pos++;
+            if (pos == basePart.size()) return false;
+            if (basePart[pos] == '+' || basePart[pos] == '-') {
+                expNeg = (basePart[pos] == '-');
+                pos++;
             }
-            else if (str[i] == '.')
-                inFraction = true;
-            else if (str[i] == 'e' || str[i] == 'E')
-                inExponent = true;
-            else if (str[i] == '-')
-                isExponentNegative = true;
-            else if (str[i] == '+')
-                isExponentNegative = false;
-        }
-        if (isExponentNegative)
-            exponent = -exponent;
-        if (exponent > 0)
-            for (int e = 0; e < exponent; ++e) result *= 10.0;
-        else
-            for (int e = 0; e > exponent; --e) result /= 10.0;
-        if (isNegative)
-            result = -result;
-        if (result >= static_cast<double>(std::numeric_limits<int>::max()) ||
-            result <= static_cast<double>(std::numeric_limits<int>::min()) ||
-            std::isnan(result))
-            _int = 0;
-        else
-            _int = static_cast<int>(result);
-        if (result < 0 || result > 127 || std::isnan(result) || !std::isprint(static_cast<char>(result)))
-            _char = 0;
-        else
-            _char = static_cast<char>(result);
-        return (false);
+            if (pos == basePart.size()) return false;
+            break;
+        } else if (std::isdigit(static_cast<unsigned char>(c))) {
+            digitsBeforeExp = true;
+            if (!dotSeen)
+                result = result * 10.0 + (c - '0');
+            else {
+                result += (c - '0') * fracFactor;
+                fracFactor *= 0.1;
+            }
+            pos++;
+        } else return false;
     }
-    return false;
+
+    if (!digitsBeforeExp) return false;
+
+    if (expPart) {
+        int expVal = 0;
+        bool expDigits = false;
+        for (; pos < basePart.size(); pos++) {
+            char c = basePart[pos];
+            if (!std::isdigit(static_cast<unsigned char>(c))) return false;
+            expDigits = true;
+            int digit = c - '0';
+            if (expVal > (std::numeric_limits<int>::max() - digit) / 10)
+                return false;
+            expVal = expVal * 10 + digit;
+        }
+        if (!expDigits) return false;
+        exponent = expNeg ? -expVal : expVal;
+    }
+
+    if (exponent > 309) {
+        out = neg ? -std::numeric_limits<double>::infinity() : std::numeric_limits<double>::infinity();
+        return true;
+    }
+    if (exponent < -324) {
+        out = neg ? -0.0 : 0.0;
+        return true;
+    }
+
+    double pow10 = 1.0;
+    int absExp = exponent > 0 ? exponent : -exponent;
+    for (int j = 0; j < absExp; j++) {
+        pow10 *= 10.0;
+    }
+
+    if (exponent < 0)
+        result /= pow10;
+    else
+        result *= pow10;
+
+    if (result == 0.0) {
+        out = neg ? -0.0 : 0.0;
+        return true;
+    }
+
+    if (result > std::numeric_limits<double>::max()) {
+        out = neg ? -std::numeric_limits<double>::infinity() : std::numeric_limits<double>::infinity();
+        return true;
+    }
+
+    out = neg ? -result : result;
+    return true;
 }
 
-void printData(int _int, char _char, float _float, double _double, bool impossible)
-{
+
+static bool parseFloat(const std::string& s, float& out) {
+    if (s.empty() || s[s.size()-1] != 'f') return false;
+
+    std::string sub = s.substr(0, s.size()-1);
+    double d;
+    if (!parseDouble(sub, d)) return false;
+
+    if (std::abs(d) < std::numeric_limits<float>::min() && d != 0.0) {
+        out = 0.0f;
+        return true;
+    }
+
+    if (std::isinf(d)) {
+        out = static_cast<float>(d);
+        return true;
+    }
+
+    if (d > std::numeric_limits<float>::max()) {
+        out = std::numeric_limits<float>::infinity();
+        return true;
+    }
+
+    if (d < -std::numeric_limits<float>::max()) {
+        out = -std::numeric_limits<float>::infinity();
+        return true;
+    }
+
+    out = static_cast<float>(d);
+    return true;
+}
+
+static void printChar(char c, bool impossible, bool nonDisp) {
     std::cout << "char: ";
-    if (!impossible && std::isprint(_char))
-		std::cout << "'" << _char << "'" << std::endl;
-    else if (impossible)
-		std::cout << "impossible" << std::endl;
-    else
-        std::cout << "Non displayable" << std::endl;
-    if (impossible)
-        std::cout << "int: impossible" << std::endl;
-    else
-        std::cout << "int: " << _int << std::endl;
-    std::cout << "float: " << _float << "f" << std::endl;
-    std::cout << "double: " << _double << std::endl;
+    if (impossible && !nonDisp) std::cout << "impossible\n";
+    else if (nonDisp) std::cout << "Non displayable\n";
+    else std::cout << "'" << c << "'\n";
+}
+static void printInt(int i, bool impossible) {
+    std::cout << "int: ";
+    if (impossible) std::cout << "impossible\n";
+    else std::cout << i << "\n";
+}
+static void printFloat(float f, bool impossible, const std::string& literal) {
+    std::cout << "float: ";
+    if (impossible) {
+        std::string l = toLower(literal);
+        if (l == "nanf") std::cout << "nanf\n";
+        else if (l == "+inff" || l == "inff") std::cout << "+inff\n";
+        else if (l == "-inff") std::cout << "-inff\n";
+        else std::cout << "impossible\n";
+    }
+    else {
+        if (std::signbit(f) && f == 0.0f)
+            std::cout << "-0.0f\n";
+        else {
+            std::cout << f;
+            if (f == static_cast<int>(f)) std::cout << ".0";
+            std::cout << "f\n";
+        }
+    }
+}
+static void printDouble(double d, bool impossible, const std::string& literal) {
+    std::cout << "double: ";
+    if (impossible) {
+        std::string l = toLower(literal);
+        if (l == "nanf" || l == "nan") std::cout << "nan\n";
+        else if (l == "+inff" || l == "+inf" || l == "inff" || l == "inf") std::cout << "+inf\n";
+        else if (l == "-inff" || l == "-inf") std::cout << "-inf\n";
+        else std::cout << "impossible\n";
+    }
+    else {
+        std::cout << d;
+        if (d == static_cast<int>(d)) std::cout << ".0";
+        std::cout << "\n";
+    }
 }
 
-void	ScalarConverter::convert(const std::string &str)
-{
-	int	_int = 0;
-	float	_float = 0.0f;
-	double	_double = 0.0;
-	char	_char = 0;
-	bool impossible = false;
-	if (isChar(str))
-        	impossible = convertChar(_int, _char, _float, _double, str, impossible);
-	else if (isInt(str))
-        	impossible = convertInt(_int, _char, _float, _double, str, impossible);
-	else if (isFloat(str))
-		impossible = convertFloat(_int, _char, _float, _double, str);
-	else if (isDouble(str))
-		impossible = convertDouble(_int, _char, _float, _double, str);
-	else
-	{
-		std::cout << "Error: Invalid input" << std::endl;
-		return ;
-	}
-	printData(_int, _char, _float, _double, impossible);
+void ScalarConverter::convert(const std::string& literal) {
+    char c = 0;
+    int i = 0;
+    float f = 0.0f;
+    double d = 0.0;
+    bool charImp = false;
+    bool intImp = false;
+    bool floatImp = false;
+    bool doubleImp = false;
+    bool nonDisp = false;
+
+    std::string l = toLower(literal);
+
+    if (isChar(literal)) {
+        c = literal[0];
+        unsigned char uc = static_cast<unsigned char>(c);
+        i = static_cast<int>(uc);
+        f = static_cast<float>(i);
+        d = static_cast<double>(i);
+        charImp = (i > 127);
+        nonDisp = (!std::isprint(uc) && uc <= 127);
+    }
+    else if (parseInt(literal, i)) {
+        c = static_cast<char>(i);
+        charImp = (i < 0 || i > 127);
+        unsigned char uc = static_cast<unsigned char>(c);
+        nonDisp = (!std::isprint(uc) && uc <= 127);
+        f = static_cast<float>(i);
+        d = static_cast<double>(i);
+    }
+    else if (isSpecialFloat(literal)) {
+        floatImp = false;
+        doubleImp = false;
+        intImp = true;
+        charImp = true;
+
+        if (l == "nanf") f = std::numeric_limits<float>::quiet_NaN();
+        else if (l == "+inff" || l == "inff") f = std::numeric_limits<float>::infinity();
+        else f = -std::numeric_limits<float>::infinity();
+        d = static_cast<double>(f);
+    }
+    else if (isSpecialDouble(literal)) {
+        doubleImp = false;
+        floatImp = false;
+        intImp = true;
+        charImp = true;
+
+        if (l == "nan") d = std::numeric_limits<double>::quiet_NaN();
+        else if (l == "+inf" || l == "inf") d = std::numeric_limits<double>::infinity();
+        else d = -std::numeric_limits<double>::infinity();
+        f = static_cast<float>(d);
+    }
+    else if (literal.size() > 1 && literal[literal.size() - 1] == 'f' && parseFloat(literal, f)) {
+        d = static_cast<double>(f);
+
+        if (f < std::numeric_limits<int>::min() || f > std::numeric_limits<int>::max()) intImp = true;
+        else i = static_cast<int>(f);
+
+        if (f < 0 || f > 127 || !std::isprint(static_cast<unsigned char>(static_cast<char>(f)))) charImp = true;
+        else c = static_cast<char>(f);
+    }
+    else if (parseDouble(literal, d)) {
+        f = static_cast<float>(d);
+        if (f == 0.0f && d != 0.0)
+            floatImp = true;
+
+        if (d < std::numeric_limits<int>::min() || d > std::numeric_limits<int>::max()) intImp = true;
+        else i = static_cast<int>(d);
+
+        if (d < 0 || d > 127 || !std::isprint(static_cast<unsigned char>(static_cast<char>(d)))) charImp = true;
+        else c = static_cast<char>(d);
+    }
+    else {
+        std::cout << "Error: Invalid input\n";
+        return;
+    }
+
+    printChar(c, charImp, nonDisp);
+    printInt(i, intImp);
+    printFloat(f, floatImp, literal);
+    printDouble(d, doubleImp, literal);
 }
