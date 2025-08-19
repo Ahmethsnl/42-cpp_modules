@@ -1,6 +1,6 @@
-NAME = 
+NAME = iter
 
-SRCS = 
+SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 CXX = c++
