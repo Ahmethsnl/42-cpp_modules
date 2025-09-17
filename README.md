@@ -62,5 +62,3 @@ make
 ```
 
 ---
-
-[🔝 Sayfanın En Üstüne Çık](#💎-c++-modülleri-42-cursus)
