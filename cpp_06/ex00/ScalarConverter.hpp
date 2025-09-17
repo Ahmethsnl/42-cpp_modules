@@ -1,21 +1,25 @@
-#ifndef ScalarConverter_HPP
-# define ScalarConverter_HPP
+#ifndef SCALARCONVERTER_HPP
+#define SCALARCONVERTER_HPP
 
 #include <iostream>
-#include <string>
-#include <cmath>
-#include <limits>
 
-class ScalarConverter
-{
-    private:
-        ScalarConverter ();
-        ScalarConverter (const ScalarConverter &src);
-        ~ScalarConverter ();
-        ScalarConverter &operator=(const ScalarConverter &rhs);
-    
-    public:
-        static void convert(const std::string &literal);
+class ScalarConverter {
+public:
+    ScalarConverter();
+
+    ScalarConverter(const ScalarConverter&);
+
+    ScalarConverter& operator=(const ScalarConverter&);
+
+    ~ScalarConverter();
+
+    static void convert(const std::string& literal);
+
+private:
+    static void printChar(double d);
+    static void printInt(double d);
+    static void printFloat(double d);
+    static void printDouble(double d);
 };
 
 #endif
