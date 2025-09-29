@@ -6,9 +6,9 @@
 
 int main()
 {
-    auto shrubbery = new ShrubberyCreationForm("shrubbery");
-    auto robotomy = new RobotomyRequestForm("robotomy");
-    auto presidential = new PresidentialPardonForm("presidential");
+    ShrubberyCreationForm* shrubbery = new ShrubberyCreationForm("shrubbery");
+    RobotomyRequestForm* robotomy = new RobotomyRequestForm("robotomy");
+    PresidentialPardonForm* presidential = new PresidentialPardonForm("presidential");
 
     Bureaucrat b1("b1", 1);
     Bureaucrat b2("b2", 150);

@@ -3,6 +3,7 @@
 #include "ShrubberyCreationForm.hpp"
 #include "PresidentialPardonForm.hpp"
 #include <iostream>
+#include <cstddef>
 
 Intern::Intern() {}
 
@@ -49,5 +50,5 @@ AForm* Intern::makeForm(const std::string& formName, const std::string& target) 
     }
 
     std::cerr << "Error: Form name \"" << formName << "\" does not exist." << std::endl;
-    return nullptr;
+    return NULL;
 }

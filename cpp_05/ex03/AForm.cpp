@@ -44,6 +44,8 @@ const char *AForm::GradeTooLowException::what() const throw() { return "Grade is
 
 const char *AForm::AFormAlreadySignedException::what() const throw() { return "AForm is already signed"; }
 
+const char *AForm::AFormNotSignedException::what() const throw() { return "AForm is not signed"; }
+
 std::ostream &operator<<(std::ostream &out, AForm const &AForm)
 {
     out << AForm.getName() << ", AForm signed status: " << AForm.getSigned() << ", grade to sign: " << AForm.getGradeToSign() << ", grade to execute: " << AForm.getGradeToExecute();

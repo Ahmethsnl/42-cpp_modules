@@ -2,7 +2,7 @@ SRCS	= main.cpp Bureaucrat.cpp Form.cpp
 OBJS	= $(SRCS:.cpp=.o)
 
 CPP		= c++
-CPPFLAGS= -Wall -Wextra -Werror -std=c++98
+CPPFLAGS= -Wall -Wextra -Werror -std=c++98 -pedantic
 NAME	= Form
 
 all: $(NAME)

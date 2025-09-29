@@ -1,4 +1,5 @@
 #include "RobotomyRequestForm.hpp"
+#include <ctime>
 
 RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 72, 45), target(target)
 {
@@ -23,9 +24,11 @@ RobotomyRequestForm::~RobotomyRequestForm()
 
 void RobotomyRequestForm::execute(Bureaucrat const &executor) const
 {
+	if (!this->getSigned())
+		throw AForm::AFormNotSignedException();
 	srand((unsigned)time(0));
 	if (executor.getGrade() > this->getGradeToExecute())
-		throw GradeTooLowException();
+		throw AForm::GradeTooLowException();
 	std::cout << "* drilling noises *" << std::endl;
 	if (rand() % 2)
 		std::cout << target << " has been robotomized successfully." << std::endl;

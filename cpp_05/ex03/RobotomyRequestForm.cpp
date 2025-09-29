@@ -1,4 +1,5 @@
 #include "RobotomyRequestForm.hpp"
+#include <ctime>
 
 RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 72, 45), target(target)
 {
@@ -23,6 +24,8 @@ RobotomyRequestForm::~RobotomyRequestForm()
 
 void RobotomyRequestForm::execute(Bureaucrat const &executor) const
 {
+	if (!this->getSigned())
+		throw AFormNotSignedException();
 	srand((unsigned)time(0));
 	if (executor.getGrade() > this->getGradeToExecute())
 		throw GradeTooLowException();
