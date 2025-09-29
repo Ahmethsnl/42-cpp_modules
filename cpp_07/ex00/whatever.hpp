@@ -12,13 +12,13 @@ void swap(T &a, T &b) {
 // min: küçük olanı döner, eşitse ikinciyi döner
 template <typename T>
 T const &min(T const &a, T const &b) {
-    return (a < b ? a : b);
+    return (a < b ? a : b);  // a < b değilse (a >= b) b döner
 }
 
 // max: büyük olanı döner, eşitse ikinciyi döner
 template <typename T>
 T const &max(T const &a, T const &b) {
-    return (a > b ? a : b);
+    return (a > b ? a : b);  // a > b değilse (a <= b) b döner
 }
 
 #endif
