@@ -20,8 +20,15 @@ public:
     Span& operator=(const Span& other);
 
     void addNumber(int number);
+    
     template <typename Iterator>
-    void addRange(Iterator begin, Iterator end);
+    void addRange(Iterator begin, Iterator end) {
+        if (std::distance(begin, end) + _numbers.size() > _maxSize) {
+            throw SpanFullException();
+        }
+        _numbers.insert(_numbers.end(), begin, end);
+    }
+    
     int shortestSpan() const;
     int longestSpan() const;
 

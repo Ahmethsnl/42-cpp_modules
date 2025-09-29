@@ -2,22 +2,64 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <deque>
 
 int main() {
+    std::cout << "=== TESTING EASYFIND ===" << std::endl;
+    
+    // Test with std::vector
+    std::cout << "\n--- std::vector test ---" << std::endl;
+    std::vector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(3);
+    vec.push_back(4);
+    vec.push_back(5);
+    
     try {
-        std::vector<int> vec = {1, 2, 3, 4, 5};
-        std::cout << "Found: " << *easyfind(vec, 3) << std::endl;
-        std::cout << "Found: " << *easyfind(vec, 6) << std::endl;
+        std::vector<int>::const_iterator it = easyfind(vec, 3);
+        std::cout << "Found value 3 in vector" << std::endl;
+        std::cout << "Value: " << *it << std::endl;
     } catch (const std::exception& e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "Error: " << e.what() << std::endl;
     }
-
+    
     try {
-        std::list<int> lst = {10, 20, 30, 40};
-        std::cout << "Found: " << *easyfind(lst, 20) << std::endl;
-        std::cout << "Found: " << *easyfind(lst, 50) << std::endl;
+        easyfind(vec, 10);  // Should throw
+        std::cout << "Found 10 (this shouldn't print)" << std::endl;
     } catch (const std::exception& e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "Expected error: " << e.what() << std::endl;
+    }
+    
+    // Test with std::list
+    std::cout << "\n--- std::list test ---" << std::endl;
+    std::list<int> lst;
+    lst.push_back(10);
+    lst.push_back(20);
+    lst.push_back(30);
+    lst.push_back(40);
+    
+    try {
+        std::list<int>::const_iterator it = easyfind(lst, 20);
+        std::cout << "Found value 20 in list" << std::endl;
+        std::cout << "Value: " << *it << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+    
+    // Test with std::deque
+    std::cout << "\n--- std::deque test ---" << std::endl;
+    std::deque<int> deq;
+    deq.push_back(100);
+    deq.push_back(200);
+    deq.push_back(300);
+    
+    try {
+        std::deque<int>::const_iterator it = easyfind(deq, 200);
+        std::cout << "Found value 200 in deque" << std::endl;
+        std::cout << "Value: " << *it << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
     }
 
     return 0;

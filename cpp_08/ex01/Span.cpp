@@ -24,14 +24,6 @@ void Span::addNumber(int number) {
     _numbers.push_back(number);
 }
 
-template <typename Iterator>
-void Span::addRange(Iterator begin, Iterator end) {
-    if (std::distance(begin, end) + _numbers.size() > _maxSize) {
-        throw SpanFullException();
-    }
-    _numbers.insert(_numbers.end(), begin, end);
-}
-
 int Span::shortestSpan() const {
     if (_numbers.size() < 2) {
         throw NoSpanException();
