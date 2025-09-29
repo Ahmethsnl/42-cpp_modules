@@ -12,8 +12,8 @@ private:
     ~Serializer();
 
 public:
-    static uintptr_t   toInteger(Data* pointer);
-    static Data*       toPointer(uintptr_t raw);
+    static uintptr_t   serialize(Data* ptr);
+    static Data*       deserialize(uintptr_t raw);
 };
 
 #endif

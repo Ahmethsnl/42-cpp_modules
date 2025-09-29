@@ -7,10 +7,10 @@ int main() {
 
     std::cout << "Address of sample: " << &sample << std::endl;
 
-    uintptr_t encoded = Serializer::toInteger(&sample);
+    uintptr_t encoded = Serializer::serialize(&sample);
     std::cout << "Serialized (uintptr_t): " << encoded << std::endl;
 
-    Data* recovered = Serializer::toPointer(encoded);
+    Data* recovered = Serializer::deserialize(encoded);
     std::cout << "Recovered address: " << recovered << std::endl;
 
     if (recovered == &sample)

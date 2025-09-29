@@ -66,16 +66,25 @@ void ScalarConverter::convert(const std::string& literal) {
     if (isCharLiteral) {
         d = static_cast<double>(literal[0]);
     } else {
-        const char* cstr = literal.c_str();
-        char* endptr = NULL;
-        if (literal[literal.length() - 1] == 'f' && literal != "f") {
-            d = std::strtod(literal.substr(0, literal.length() - 1).c_str(), &endptr);
+        // Handle special cases
+        if (literal == "nan" || literal == "nanf") {
+            d = std::numeric_limits<double>::quiet_NaN();
+        } else if (literal == "+inf" || literal == "+inff") {
+            d = std::numeric_limits<double>::infinity();
+        } else if (literal == "-inf" || literal == "-inff") {
+            d = -std::numeric_limits<double>::infinity();
         } else {
-            d = std::strtod(cstr, &endptr);
-        }
-        if (*endptr != '\0') {
-            std::cout << "Error: Invalid input\n";
-            return;
+            const char* cstr = literal.c_str();
+            char* endptr = NULL;
+            if (literal[literal.length() - 1] == 'f' && literal != "f") {
+                d = std::strtod(literal.substr(0, literal.length() - 1).c_str(), &endptr);
+            } else {
+                d = std::strtod(cstr, &endptr);
+            }
+            if (*endptr != '\0') {
+                std::cout << "Error: Invalid input\n";
+                return;
+            }
         }
     }
 

@@ -6,10 +6,10 @@ Serializer::Serializer(const Serializer&) {}
 Serializer& Serializer::operator=(const Serializer&) { return *this; }
 Serializer::~Serializer() {}
 
-uintptr_t Serializer::toInteger(Data* pointer) {
-    return reinterpret_cast<uintptr_t>(pointer);
+uintptr_t Serializer::serialize(Data* ptr) {
+    return reinterpret_cast<uintptr_t>(ptr);
 }
 
-Data* Serializer::toPointer(uintptr_t raw) {
+Data* Serializer::deserialize(uintptr_t raw) {
     return reinterpret_cast<Data*>(raw);
 }
