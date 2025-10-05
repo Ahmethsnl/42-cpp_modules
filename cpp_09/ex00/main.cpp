@@ -11,11 +11,9 @@ int main(int argc, char* argv[])
     
     BitcoinExchange btc;
     
-    // Load the database from the data.csv file
     if (!btc.loadDatabase("../data.csv"))
         return 1;
     
-    // Process the input file
     btc.processInputFile(argv[1]);
     
     return 0;

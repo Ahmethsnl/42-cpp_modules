@@ -38,16 +38,20 @@ void ShrubberyCreationForm::execute(Bureaucrat const &executor) const
 		std::cerr << "Error: could not open file" << std::endl;
 		return ;
 	}
-	outfile << "                ,@@@@@@@," << std::endl;
-	outfile << "        ,,,.   ,@@@@@@/@@,  .oo8888o." << std::endl;
-	outfile << "     ,&%%&%&&%,@@@@@/@@@@@@,8888\\88/8o" << std::endl;
-	outfile << "    ,%&\\%&&%&&%,@@@\\@@@/@@@88\\88888/88'" << std::endl;
-	outfile << "    %&&%&%&/%&&%@@\\@@/ /@@@88888\\88888'" << std::endl;
-	outfile << "    %&&%/ %&%%&&@@\\ V /@@' `88\\8 `/88'" << std::endl;
-	outfile << "    `&%\\ ` /%&'    |.|        \\ '|8'" << std::endl;
-	outfile << "        |o|        | |         | |" << std::endl;
-	outfile << "        |.|        | |         | |" << std::endl;
-	outfile << "     \\/ ._\\//_/__/  ,\\_//__\\/.  \\_//__/_" << std::endl;
+	outfile << "           /\\  " << std::endl;
+	outfile << "          /  \\ " << std::endl;
+	outfile << "         /____\\" << std::endl;
+	outfile << "        /      \\" << std::endl;
+	outfile << "       /   /\\   \\" << std::endl;
+	outfile << "      /   /  \\   \\" << std::endl;
+	outfile << "     /___/____\\___\\" << std::endl;
+	outfile << "    /              \\" << std::endl;
+	outfile << "   /     FOREST     \\" << std::endl;
+	outfile << "  /   OF SHRUBBERY   \\" << std::endl;
+	outfile << " /____________________\\" << std::endl;
+	outfile << "         |    |" << std::endl;
+	outfile << "         |    |" << std::endl;
+	outfile << "     ____|____|____" << std::endl;
 	outfile.close();
 
 	std::cout << "ShrubberyCreationForm has been executed by " << executor.getName() << std::endl;

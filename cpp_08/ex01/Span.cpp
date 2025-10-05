@@ -8,7 +8,6 @@ Span::~Span() {}
 
 Span::Span(const Span& other) : _maxSize(other._maxSize), _numbers(other._numbers) {}
 
-// Assignment operator
 Span& Span::operator=(const Span& other) {
     if (this != &other) {
         _maxSize = other._maxSize;

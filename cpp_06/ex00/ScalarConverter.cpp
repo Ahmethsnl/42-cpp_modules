@@ -66,7 +66,6 @@ void ScalarConverter::convert(const std::string& literal) {
     if (isCharLiteral) {
         d = static_cast<double>(literal[0]);
     } else {
-        // Handle special cases
         if (literal == "nan" || literal == "nanf") {
             d = std::numeric_limits<double>::quiet_NaN();
         } else if (literal == "+inf" || literal == "+inff") {

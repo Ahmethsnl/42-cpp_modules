@@ -1,1 +1,7 @@
 .vscode
+Code.md
+*.o
+*a.out
+*.exe
+*.obj
+*.json

@@ -2,12 +2,10 @@
 #include <string>
 #include "iter.hpp"
 
-// Non-const function: modifies elements
 void doubleInt(int& x) {
     x *= 2;
 }
 
-// Const function: only reads elements  
 void printInt(const int& x) {
     std::cout << x << " ";
 }
@@ -19,19 +17,17 @@ void printElement(const T& elem) {
 
 template <typename T>
 void modifyElement(T& elem) {
-    (void)elem; // Unused parameter warning'ini önle
+    (void)elem;
 }
 
 int main() {
     std::cout << "=== NON-CONST ARRAY TESTS ===" << std::endl;
     
-    // Non-const array
     int intArray[5] = {1, 2, 3, 4, 5};
     std::cout << "Original array: ";
     iter(intArray, 5, printInt);
     std::cout << std::endl;
     
-    // Modify elements (non-const function)
     iter(intArray, 5, doubleInt);
     std::cout << "After doubling: ";
     iter(intArray, 5, printInt);
@@ -39,10 +35,9 @@ int main() {
     
     std::cout << "\n=== CONST ARRAY TESTS ===" << std::endl;
     
-    // Const array
     const int constArray[3] = {10, 20, 30};
     std::cout << "Const array: ";
-    iter(constArray, 3, printInt);  // Works with const array
+    iter(constArray, 3, printInt);
     std::cout << std::endl;
     
     std::cout << "\n=== STRING ARRAY TEST ===" << std::endl;

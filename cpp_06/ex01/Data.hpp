@@ -10,6 +10,8 @@ struct Data {
 
     Data();
     Data(const std::string& lbl, int num, float r);
+    Data& operator=(const Data&);
+    ~Data();
 };
 
 #endif

@@ -5,10 +5,10 @@ int main(int argc, char* argv[])
 {
     PmergeMe sorter;
     
-    if (!sorter.parseArguments(argc, argv))
+    if (!sorter.processInput(argc, argv))
         return 1;
     
-    sorter.sort();
+    sorter.executeSort();
     
     return 0;
 }

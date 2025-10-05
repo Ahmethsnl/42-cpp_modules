@@ -2,9 +2,13 @@
 #define FUNCTIONS_HPP
 
 #include "Base.hpp"
+#include "A.hpp"
+#include "B.hpp"
+#include "C.hpp"
 #include <iostream>
+#include <typeinfo>
+#include <exception>
 
-// forward declarations
 Base* generate(void);
 void identify(Base* p);
 void identify(Base& p);

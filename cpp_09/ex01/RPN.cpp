@@ -25,7 +25,6 @@ bool RPN::isNumber(const std::string& token) const
     if (token.empty())
         return false;
     
-    // Check if it's a single digit (0-9)
     if (token.length() == 1 && isdigit(token[0]))
         return true;
     
@@ -51,7 +50,6 @@ double RPN::performOperation(double a, double b, const std::string& op) const
 
 double RPN::calculate(const std::string& expression)
 {
-    // Clear the stack
     while (!_stack.empty())
         _stack.pop();
     

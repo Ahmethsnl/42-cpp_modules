@@ -3,6 +3,12 @@
 
 #include "Base.hpp"
 
-class B : public Base {};
+class B : public Base {
+public:
+    B();
+    B(const B& other);
+    B& operator=(const B& other);
+    ~B();
+};
 
 #endif

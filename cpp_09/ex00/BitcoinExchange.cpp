@@ -1,5 +1,9 @@
 #include "BitcoinExchange.hpp"
-#include <limits>
+#     
+    for (size_t i = 0; i < dateStr.length(); i++) {
+        
+    int year = std::atoi(dateStr.substr(0, 4).c_str()); (size_t i = 0; i < dateSt        
+        if (!isValidDate(date)) {ength(); i++) {lude <limits>
 #include <cstdlib>
 
 BitcoinExchange::BitcoinExchange() {}
@@ -32,7 +36,6 @@ bool BitcoinExchange::isValidDate(const std::string& date) const
     if (date[4] != '-' || date[7] != '-')
         return false;
     
-    // Check if all other characters are digits
     for (size_t i = 0; i < date.length(); ++i)
     {
         if (i == 4 || i == 7)
@@ -41,12 +44,10 @@ bool BitcoinExchange::isValidDate(const std::string& date) const
             return false;
     }
     
-    // Extract year, month, day
     int year = std::atoi(date.substr(0, 4).c_str());
     int month = std::atoi(date.substr(5, 2).c_str());
     int day = std::atoi(date.substr(8, 2).c_str());
     
-    // Basic validation
     if (year < 2009 || year > 2025)
         return false;
     if (month < 1 || month > 12)
@@ -54,7 +55,6 @@ bool BitcoinExchange::isValidDate(const std::string& date) const
     if (day < 1 || day > 31)
         return false;
     
-    // More detailed day validation based on month
     if (month == 2)
     {
         bool isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
@@ -78,11 +78,9 @@ bool BitcoinExchange::isValidValue(const std::string& valueStr, double& value) c
     char* endptr;
     value = std::strtod(valueStr.c_str(), &endptr);
     
-    // Check if conversion was successful
     if (*endptr != '\0')
         return false;
     
-    // Check range
     if (value < 0)
         return false;
     if (value > 1000)
@@ -105,7 +103,6 @@ bool BitcoinExchange::loadDatabase(const std::string& filename)
     
     while (std::getline(file, line))
     {
-        // Skip header line
         if (firstLine)
         {
             firstLine = false;
@@ -140,7 +137,6 @@ double BitcoinExchange::findClosestRate(const std::string& date) const
     if (it != _data.end())
         return it->second;
     
-    // Find the closest lower date
     it = _data.lower_bound(date);
     if (it == _data.begin())
         return 0;
@@ -163,7 +159,6 @@ void BitcoinExchange::processInputFile(const std::string& filename)
     
     while (std::getline(file, line))
     {
-        // Skip header line
         if (firstLine)
         {
             firstLine = false;
@@ -180,14 +175,12 @@ void BitcoinExchange::processInputFile(const std::string& filename)
         std::string date = trim(line.substr(0, pipePos));
         std::string valueStr = trim(line.substr(pipePos + 3));
         
-        // Validate date
         if (!isValidDate(date))
         {
             std::cerr << "Error: bad input => " << date << std::endl;
             continue;
         }
         
-        // Validate value
         double value;
         if (!isValidValue(valueStr, value))
         {
@@ -198,7 +191,6 @@ void BitcoinExchange::processInputFile(const std::string& filename)
             continue;
         }
         
-        // Calculate result
         double rate = findClosestRate(date);
         double result = value * rate;
         

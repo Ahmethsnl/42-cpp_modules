@@ -7,7 +7,6 @@
 int main() {
     std::cout << "=== TESTING EASYFIND ===" << std::endl;
     
-    // Test with std::vector
     std::cout << "\n--- std::vector test ---" << std::endl;
     std::vector<int> vec;
     vec.push_back(1);
@@ -25,13 +24,12 @@ int main() {
     }
     
     try {
-        easyfind(vec, 10);  // Should throw
+        easyfind(vec, 10);
         std::cout << "Found 10 (this shouldn't print)" << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Expected error: " << e.what() << std::endl;
     }
     
-    // Test with std::list
     std::cout << "\n--- std::list test ---" << std::endl;
     std::list<int> lst;
     lst.push_back(10);
@@ -47,7 +45,6 @@ int main() {
         std::cerr << "Error: " << e.what() << std::endl;
     }
     
-    // Test with std::deque
     std::cout << "\n--- std::deque test ---" << std::endl;
     std::deque<int> deq;
     deq.push_back(100);

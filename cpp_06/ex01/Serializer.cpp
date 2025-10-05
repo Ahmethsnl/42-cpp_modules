@@ -1,6 +1,5 @@
 #include "Serializer.hpp"
 
-// canonical form - hidden
 Serializer::Serializer() {}
 Serializer::Serializer(const Serializer&) {}
 Serializer& Serializer::operator=(const Serializer&) { return *this; }
