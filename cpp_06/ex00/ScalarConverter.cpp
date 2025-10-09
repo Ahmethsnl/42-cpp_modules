@@ -60,11 +60,11 @@ void ScalarConverter::convert(const std::string& literal) {
     if (isCharLiteral) {
         d = static_cast<double>(literal[0]);
     } else {
-        if (literal == "nan" || literal == "nanf") {
+        if (literal == "nan" || literal == "nanf" || literal == "NAN" || literal == "NANF") {
             d = std::numeric_limits<double>::quiet_NaN();
-        } else if (literal == "+inf" || literal == "+inff") {
+        } else if (literal == "+inf" || literal == "+inff" || literal == "+INFF" || literal == "+INF") {
             d = std::numeric_limits<double>::infinity();
-        } else if (literal == "-inf" || literal == "-inff") {
+        } else if (literal == "-inf" || literal == "-inff" || literal == "-INFF" || literal == "-INF") {
             d = -std::numeric_limits<double>::infinity();
         } else {
             const char* cstr = literal.c_str();
