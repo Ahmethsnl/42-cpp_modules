@@ -62,9 +62,9 @@ void ScalarConverter::convert(const std::string& literal) {
     } else {
         if (literal == "nan" || literal == "nanf" || literal == "NAN" || literal == "NANF") {
             d = std::numeric_limits<double>::quiet_NaN();
-        } else if (literal == "+inf" || literal == "+inff" || literal == "+INFF" || literal == "+INF") {
+        } else if (literal == "+inf" || literal == "+inff" || literal == "+INF" || literal == "+INFF") {
             d = std::numeric_limits<double>::infinity();
-        } else if (literal == "-inf" || literal == "-inff" || literal == "-INFF" || literal == "-INF") {
+        } else if (literal == "-inf" || literal == "-inff" || literal == "-INF" || literal == "-INFF") {
             d = -std::numeric_limits<double>::infinity();
         } else {
             const char* cstr = literal.c_str();
