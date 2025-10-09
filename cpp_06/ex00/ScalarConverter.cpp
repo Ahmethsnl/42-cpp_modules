@@ -8,34 +8,34 @@ ScalarConverter::~ScalarConverter() {}
 void ScalarConverter::printChar(double d) {
     std::cout << "char: ";
     if (std::isnan(d) || d < 0 || d > 127)
-        std::cout << "impossible\n";
+        std::cout << "impossible" << std::endl;
     else if (!std::isprint(static_cast<char>(d)))
-        std::cout << "Non displayable\n";
+        std::cout << "Non displayable" << std::endl;
     else
-        std::cout << "'" << static_cast<char>(d) << "'\n";
+        std::cout << "'" << static_cast<char>(d) << std::endl;
 }
 
 void ScalarConverter::printInt(double d) {
     std::cout << "int: ";
     if (std::isnan(d) || d > std::numeric_limits<int>::max() || d < std::numeric_limits<int>::min())
-        std::cout << "impossible\n";
+        std::cout << "impossible" << std::endl;
     else
-        std::cout << static_cast<int>(d) << "\n";
+        std::cout << static_cast<int>(d) << std::endl;
 }
 
 void ScalarConverter::printFloat(double d) {
     std::cout << "float: ";
     if (std::isnan(d))
-        std::cout << "nanf\n";
+        std::cout << "nanf" << std::endl;
     else if (std::isinf(d))
         std::cout << (d > 0 ? "+inff\n" : "-inff\n");
     else {
         float f = static_cast<float>(d);
-        if (f == 0.0f && std::signbit(d)) std::cout << "-0.0f\n";
+        if (f == 0.0f && std::signbit(d)) std::cout << "-0.0f" << std::endl;
         else {
             std::cout << f;
             if (f == static_cast<int>(f)) std::cout << ".0";
-            std::cout << "f\n";
+            std::cout << "f" << std::endl;
         }
     }
 }
@@ -43,13 +43,14 @@ void ScalarConverter::printFloat(double d) {
 void ScalarConverter::printDouble(double d) {
     std::cout << "double: ";
     if (std::isnan(d))
-        std::cout << "nan\n";
+        std::cout << "nan" << std::endl;
     else if (std::isinf(d))
         std::cout << (d > 0 ? "+inf\n" : "-inf\n");
+    else if (d == 0.0 && std::signbit(d)) std::cout << "-0.0" << std::endl;
     else {
         std::cout << d;
         if (d == static_cast<int>(d)) std::cout << ".0";
-        std::cout << "\n";
+        std::cout << std::endl;
     }
 }
 
