@@ -87,8 +87,8 @@ void ScalarConverter::convert(const std::string& literal) {
                 std::cout << "Error: Underflow (value too small)" << std::endl;
                 return;
             }
+        }
     }
-
     printChar(d);
     printInt(d);
     printFloat(d);
