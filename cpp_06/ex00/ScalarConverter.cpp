@@ -28,7 +28,7 @@ void ScalarConverter::printFloat(double d) {
     if (std::isnan(d))
         std::cout << "nanf" << std::endl;
     else if (std::isinf(d))
-        std::cout << (d > 0 ? "+inff\n" : "-inff\n");
+        std::cout << (d > 0 ? "+inff" : "-inff") << std::endl;
     else {
         float f = static_cast<float>(d);
         if (f == 0.0f && std::signbit(d)) std::cout << "-0.0f" << std::endl;
@@ -45,7 +45,7 @@ void ScalarConverter::printDouble(double d) {
     if (std::isnan(d))
         std::cout << "nan" << std::endl;
     else if (std::isinf(d))
-        std::cout << (d > 0 ? "+inf\n" : "-inf\n");
+        std::cout << (d > 0 ? "+inf" : "-inf") << std::endl;
     else if (d == 0.0 && std::signbit(d)) std::cout << "-0.0" << std::endl;
     else {
         std::cout << d;
