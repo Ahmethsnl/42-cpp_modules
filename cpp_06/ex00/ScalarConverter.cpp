@@ -79,7 +79,14 @@ void ScalarConverter::convert(const std::string& literal) {
                 std::cout << "Error: Invalid input" << std::endl;
                 return;
             }
-        }
+            if (d > std::numeric_limits<double>::max()) {
+                std::cout << "Error: Overflow (value too large)" << std::endl;
+                return;
+            }
+            if (d != 0.0 && std::fabs(d) < std::numeric_limits<double>::min()) {
+                std::cout << "Error: Underflow (value too small)" << std::endl;
+                return;
+            }
     }
 
     printChar(d);
