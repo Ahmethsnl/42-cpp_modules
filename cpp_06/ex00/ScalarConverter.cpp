@@ -12,7 +12,7 @@ void ScalarConverter::printChar(double d) {
     else if (!std::isprint(static_cast<char>(d)))
         std::cout << "Non displayable" << std::endl;
     else
-        std::cout << "'" << static_cast<char>(d) << std::endl;
+        std::cout << "'" << static_cast<char>(d) << "'" << std::endl;
 }
 
 void ScalarConverter::printInt(double d) {
