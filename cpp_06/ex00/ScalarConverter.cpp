@@ -76,7 +76,7 @@ void ScalarConverter::convert(const std::string& literal) {
                 d = std::strtod(cstr, &endptr);
             }
             if (*endptr != '\0') {
-                std::cout << "Error: Invalid input\n";
+                std::cout << "Error: Invalid input" << std::endl;
                 return;
             }
         }
