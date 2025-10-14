@@ -55,7 +55,7 @@ Bu repoda 42 okulu kapsamında gerçekleştirdiğim C++ modül projeleri yer alm
 - **ex01**: `Span.cpp`, `Span.hpp`, `main.cpp`
 - **ex02**: `MutantStack.hpp`, `main.cpp`
 
-### 📘 Modül 09 — STL Algoritmaları ve Konteynerler
+### 📘 Modül 09 — STL Algoritmaları ve Containers
 - **ex00**: `BitcoinExchange.cpp`, `BitcoinExchange.hpp`, `main.cpp` - Bitcoin değişim oranları (`std::map`)
 - **ex01**: `RPN.cpp`, `RPN.hpp`, `main.cpp` - Ters Polonya Notasyonu hesaplayıcısı (`std::stack`)
 - **ex02**: `PmergeMe.cpp`, `PmergeMe.hpp`, `main.cpp` - Ford-Johnson merge-insert algoritması (`std::vector`, `std::deque`)
