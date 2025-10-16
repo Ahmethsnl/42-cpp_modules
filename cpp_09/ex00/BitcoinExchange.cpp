@@ -1,10 +1,4 @@
 #include "BitcoinExchange.hpp"
-#     
-    for (size_t i = 0; i < dateStr.length(); i++) {
-        
-    int year = std::atoi(dateStr.substr(0, 4).c_str()); (size_t i = 0; i < dateSt        
-        if (!isValidDate(date)) {ength(); i++) {lude <limits>
-#include <cstdlib>
 
 BitcoinExchange::BitcoinExchange() {}
 
