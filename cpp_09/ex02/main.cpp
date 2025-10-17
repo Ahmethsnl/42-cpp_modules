@@ -1,11 +1,11 @@
 #include "PmergeMe.hpp"
 #include <iostream>
 
-int main(int argc, char* argv[])
+int main(int ac, char* av[])
 {
     PmergeMe sorter;
     
-    if (!sorter.processInput(argc, argv))
+    if (!sorter.processInput(ac, av))
         return 1;
     
     sorter.executeSort();

@@ -17,14 +17,12 @@ struct ElementGroup {
     int larger;
     int smaller;
     
-    ElementGroup() : larger(0), smaller(0) {}
-    ElementGroup(int l, int s) : larger(l), smaller(s) {}
+    ElementGroup();
+    ElementGroup(int l, int s);
 };
 
 struct GroupComparator {
-    bool operator()(const ElementGroup& a, const ElementGroup& b) const {
-        return a.larger < b.larger;
-    }
+    bool operator()(const ElementGroup& a, const ElementGroup& b) const;
 };
 
 class PmergeMe {

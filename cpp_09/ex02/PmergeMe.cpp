@@ -1,5 +1,13 @@
 #include "PmergeMe.hpp"
 
+ElementGroup::ElementGroup() : larger(0), smaller(0) {}
+
+ElementGroup::ElementGroup(int l, int s) : larger(l), smaller(s) {}
+
+bool GroupComparator::operator()(const ElementGroup& a, const ElementGroup& b) const {
+    return a.larger < b.larger;
+}
+
 PmergeMe::PmergeMe() {}
 
 PmergeMe::PmergeMe(const PmergeMe& source) : _vecContainer(source._vecContainer), _deqContainer(source._deqContainer) {}
@@ -33,19 +41,19 @@ double PmergeMe::getCurrentTime() const {
     return (timeStruct.tv_sec * 1000000.0) + timeStruct.tv_usec;
 }
 
-bool PmergeMe::processInput(int argc, char* argv[]) {
-    if (argc < 2) {
+bool PmergeMe::processInput(int ac, char** av) {
+    if (ac < 2) {
         std::cerr << "Error" << std::endl;
         return false;
     }
     
-    for (int argIndex = 1; argIndex < argc; ++argIndex) {
-        if (!validateInput(argv[argIndex])) {
+    for (int i = 1; i < ac; ++i) {
+        if (!validateInput(av[i])) {
             std::cerr << "Error" << std::endl;
             return false;
         }
         
-        int convertedValue = std::atoi(argv[argIndex]);
+        int convertedValue = std::atoi(av[i]);
         _vecContainer.push_back(convertedValue);
         _deqContainer.push_back(convertedValue);
     }
