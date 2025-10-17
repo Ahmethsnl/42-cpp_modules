@@ -8,6 +8,10 @@
 #include <algorithm>
 #include <ctime>
 #include <sys/time.h>
+#include <sstream>
+#include <cstdlib>
+#include <iomanip>
+#include <climits>
 
 struct ElementGroup {
     int larger;

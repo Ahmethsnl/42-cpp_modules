@@ -1,8 +1,4 @@
 #include "PmergeMe.hpp"
-#include <sstream>
-#include <cstdlib>
-#include <iomanip>
-#include <climits>
 
 PmergeMe::PmergeMe() {}
 
